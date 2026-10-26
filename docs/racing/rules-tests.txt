@@ -1,0 +1,19 @@
+PASS: forward crossing
+PASS: backwards crossing rejected
+PASS: standing on gate cannot double count
+PASS: approach is not crossing
+PASS: inside gate
+PASS: outside width rejected
+PASS: above gate rejected
+PASS: two keyboard layouts
+PASS: keyboard and gamepad
+PASS: two gamepads
+PASS: shared gamepad rejected
+PASS: shared keyboard layout rejected
+PASS: missing gamepad rejected
+PASS: missing keyboard rejected
+PASS: complete ordered lap 1
+PASS: complete ordered lap 2
+PASS: complete ordered lap 3
+PASS: intermediate gate does not add lap
+18 checks passed

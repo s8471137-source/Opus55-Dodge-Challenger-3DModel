@@ -1,3 +1,7 @@
+# Local two-player racing work — 2026-10-26
+
+Source implementation added on sandbox/work; see docs/racing/README.md. Runtime C# API compilation: 0 errors; pure racing rules: 18 checks PASS. Unity Editor builder, scene generation and new player are NOT verified or built. Historical phase results below refer to the original single-player project.
+
 # STATUS (resume here after a context compaction or restart)
 
 Last update: 2026-10-15. **All phases done (P0-P7)**; gate G-Build P7 PASS 0 fail / 0 warn, every earlier gate re-run on the final code (`docs/P7_report.md`). The game: `Builds/HellcatSandbox/HellcatSandbox.exe`; how to run, controls, tuning: `docs/README.md`; cost: `docs/cost_report.md`. `dev` merged into `main`.

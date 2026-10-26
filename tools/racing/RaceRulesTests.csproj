@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="RaceRulesTests.cs" />
+    <Compile Include="../../Unity/HellcatSandbox/Assets/Game/Racing/RaceRules.cs" Link="RaceRules.cs" />
+  </ItemGroup>
+</Project>

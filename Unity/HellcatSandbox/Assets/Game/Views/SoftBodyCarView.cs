@@ -24,6 +24,9 @@ namespace Hellcat.Game.Views
     public class SoftBodyCarView : MonoBehaviour
     {
         public SimRunner runner;
+        public int bodyOverride = -1;
+        int BodyIndex => bodyOverride >= 0 ? bodyOverride : runner.VehicleBody;
+        int VehicleIndex => runner.World.bodies[BodyIndex].vehicleIndex;
         [Tooltip("Node bone transforms, index = node index of the vehicle definition")]
         public Transform[] nodeBones;
         [Tooltip("Frame neighbours per node (local indices, CSR): frameNbr[frameNbrStart[i] .. frameNbrStart[i + 1]]")]
@@ -87,10 +90,10 @@ namespace Hellcat.Game.Views
         {
             if (runner == null || runner.World == null || nodeBones == null || nodeBones.Length == 0)
                 return;
-            int start = runner.World.bodies[runner.VehicleBody].nodeStart;
-            if (nodeBones.Length != runner.World.bodies[runner.VehicleBody].nodeCount)
+            int start = runner.World.bodies[BodyIndex].nodeStart;
+            if (nodeBones.Length != runner.World.bodies[BodyIndex].nodeCount)
             {
-                Debug.LogError($"[SoftBodyCarView] {nodeBones.Length} bones for {runner.World.bodies[runner.VehicleBody].nodeCount} nodes: re-run Tools/Hellcat/Import Car");
+                Debug.LogError($"[SoftBodyCarView] {nodeBones.Length} bones for {runner.World.bodies[BodyIndex].nodeCount} nodes: re-run Tools/Hellcat/Import Car");
                 return;
             }
             if (frameNbrStart == null || frameNbrStart.Length != nodeBones.Length + 1)
@@ -102,7 +105,7 @@ namespace Hellcat.Game.Views
             foreach (var smr in GetComponentsInChildren<SkinnedMeshRenderer>(true))
                 smr.updateWhenOffscreen = true;   // skinned for every camera (see CarImporter)
             nodeStart = start;
-            var def = runner.World.bodies[runner.VehicleBody].def;
+            var def = runner.World.bodies[BodyIndex].def;
             nbrStart = new NativeArray<int>(frameNbrStart, Allocator.Persistent);
             nbr = new NativeArray<int>(frameNbr.Length, Allocator.Persistent);
             restOff = new NativeArray<float3>(frameNbr.Length, Allocator.Persistent);
@@ -144,7 +147,7 @@ namespace Hellcat.Game.Views
         {
             if (!ready)
                 return;
-            var st = runner.World.vehicleState[runner.VehicleIndex];
+            var st = runner.World.vehicleState[VehicleIndex];
             float3 fwd = math.normalizesafe(new float3(st.forward.x, 0f, st.forward.z), new float3(0f, 0f, 1f));
             quaternion q0 = quaternion.LookRotationSafe(fwd, new float3(0f, 1f, 0f));
             for (int i = 0; i < rot.Length; i++) rot[i] = q0;
@@ -171,7 +174,7 @@ namespace Hellcat.Game.Views
             foreach (var r in GetComponentsInChildren<SkinnedMeshRenderer>(true))
                 byName[r.name] = r;
             var w = runner.World;
-            var b = w.bodies[runner.VehicleBody];
+            var b = w.bodies[BodyIndex];
             var def = b.def;
             foreach (var part in def.parts ?? new Hellcat.Sim.Data.PartDef[0])
             {

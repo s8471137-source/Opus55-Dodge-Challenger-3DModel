@@ -51,6 +51,17 @@ namespace Hellcat.Game.UI
         {
             if (!Visible)
                 return;
+            if (Application.CanStreamedLevelBeLoaded("CrashCircuit"))
+            {
+                var mouse = Mouse.current;
+                bool clickRace = mouse != null && mouse.leftButton.wasPressedThisFrame &&
+                    RaceButtonRect().Contains(new Vector2(mouse.position.ReadValue().x, Screen.height - mouse.position.ReadValue().y));
+                if (clickRace || (Keyboard.current != null && Keyboard.current.f2Key.wasPressedThisFrame))
+                {
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("CrashCircuit");
+                    return;
+                }
+            }
             bool any = (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame) ||
                        (Mouse.current != null && (Mouse.current.leftButton.wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame));
             var pad = Gamepad.current;
@@ -84,10 +95,18 @@ namespace Hellcat.Game.UI
             panel.Apply();
         }
 
+        Rect RaceButtonRect()
+        {
+            float s = Mathf.Max(1f, Screen.height / 1080f);
+            float h = (250f + Keys.Length * 30f) * s;
+            return new Rect((Screen.width - 400f * s) * 0.5f, (Screen.height + h) * 0.5f + 8f * s, 400f * s, 38f * s);
+        }
+
         void OnGUI()
         {
             if (!Visible)
                 return;
+            EmbeddedUIFont.Apply();
             Styles();
             float s = Mathf.Max(1f, Screen.height / 1080f);
             float w = 900f * s, rowH = 30f * s, h = (250f + Keys.Length * 30f) * s;
@@ -110,6 +129,9 @@ namespace Hellcat.Game.UI
             GUI.color = new Color(1f, 1f, 1f, pulse);
             GUI.Label(new Rect(r.x, y, w, 40f * s), "Press any key or gamepad button to drive", hint);
             GUI.color = Color.white;
+            if (Application.CanStreamedLevelBeLoaded("CrashCircuit") &&
+                GUI.Button(RaceButtonRect(), "TWO PLAYER CRASH RACE (F2)"))
+                UnityEngine.SceneManagement.SceneManager.LoadScene("CrashCircuit");
         }
     }
 }

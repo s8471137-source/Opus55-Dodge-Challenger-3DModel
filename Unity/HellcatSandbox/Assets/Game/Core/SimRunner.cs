@@ -123,6 +123,8 @@ namespace Hellcat.Game.Core
             dynamic.Sort((a, b) => string.CompareOrdinal(a.key, b.key));
             foreach (var (_, d) in dynamic)
                 d.AddBodies(World);
+            var race = GetComponent<Hellcat.Game.Racing.SplitScreenRace>();
+            if (race != null) race.AddSecondCar(this, p, r);
             World.Build(statics);
             if (settle)
             {
@@ -278,6 +280,8 @@ namespace Hellcat.Game.Core
                     InputVariedInFrame = true;
                 lastInput = inp;
             }
+            var race = GetComponent<Hellcat.Game.Racing.SplitScreenRace>();
+            if (race != null) race.WriteInputs(n);
             World.UpdateNearLists(n * World.dt + 0.05f);
             var sw = System.Diagnostics.Stopwatch.StartNew();
             World.Step(n);

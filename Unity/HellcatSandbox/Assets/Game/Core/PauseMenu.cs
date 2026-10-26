@@ -75,6 +75,7 @@ namespace Hellcat.Game.Core
         {
             if (!Open || runner == null || runner.World == null)
                 return;
+            Hellcat.Game.UI.EmbeddedUIFont.Apply();
             title ??= new GUIStyle(GUI.skin.label) { fontSize = 22, fontStyle = FontStyle.Bold };
             label ??= new GUIStyle(GUI.skin.label) { fontSize = 14, richText = true };
             button ??= new GUIStyle(GUI.skin.button) { fontSize = 14 };
@@ -195,6 +196,8 @@ namespace Hellcat.Game.Core
                 controls.Say("settings saved");
             }
             if (GUILayout.Button("Reload params.json (F9)", button)) { controls.ReloadParams(); Close(); }
+            if (UnityEngine.Application.CanStreamedLevelBeLoaded("CrashCircuit") && GUILayout.Button("Two player crash race", button))
+                UnityEngine.SceneManagement.SceneManager.LoadScene("CrashCircuit");
             if (GUILayout.Button("Quit", button))
                 Application.Quit();
             GUILayout.EndHorizontal();

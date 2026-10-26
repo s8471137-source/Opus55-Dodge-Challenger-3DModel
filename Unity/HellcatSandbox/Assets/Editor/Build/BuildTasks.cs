@@ -104,10 +104,11 @@ namespace Hellcat.EditorTools.Build
             int code = 1;
             try
             {
+                RaceSceneBuilder.Build();
                 TestMapBuilder.Build();
                 ApplyPlayerSettings();
                 string dir = P0CommandLine.GetValue("-buildDir", Path.Combine(VehicleAssetSync.ProjectRoot, "Builds", "HellcatSandbox"));
-                code = Build(new[] { TestMapBuilder.ScenePath }, Path.Combine(dir, "HellcatSandbox.exe"));
+                code = Build(new[] { TestMapBuilder.ScenePath, RaceSceneBuilder.ScenePath }, Path.Combine(dir, "HellcatSandbox.exe"));
             }
             catch (Exception e)
             {
@@ -124,12 +125,13 @@ namespace Hellcat.EditorTools.Build
             int code = 1;
             try
             {
+                RaceSceneBuilder.Build();
                 TestMapBuilder.Build();
                 ApplyPlayerSettings();
                 PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone, "com.hellcatsandbox.sandbox");
                 EditorUserBuildSettings.SetPlatformSettings("OSXUniversal", "Architecture", "x64ARM64");
                 string dir = P0CommandLine.GetValue("-buildDir", Path.Combine(VehicleAssetSync.ProjectRoot, "Builds", "HellcatSandbox_Mac"));
-                code = Build(new[] { TestMapBuilder.ScenePath }, Path.Combine(dir, "HellcatSandbox.app"), BuildTarget.StandaloneOSX);
+                code = Build(new[] { TestMapBuilder.ScenePath, RaceSceneBuilder.ScenePath }, Path.Combine(dir, "HellcatSandbox.app"), BuildTarget.StandaloneOSX);
             }
             catch (Exception e)
             {
